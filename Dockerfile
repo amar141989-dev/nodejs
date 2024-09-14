@@ -11,5 +11,6 @@ EXPOSE 3000
 CMD [ "node", "index.js" ]
 
 #  docker build -t demo:1.0.0 .
-#  docker run -p 3000:3000 -e DATABASE_HOST=host.docker.internal demo:1.0.0 #Value from .env is gets overridendock
+#  docker run rm -p 3000:3000 -e DATABASE_HOST=host.docker.internal demo:1.0.0 #Value from .env is gets overridendock
 #  docker exec -it container_id /bin/sh
+#  docker compose -f ./postgres-docker-compose.yml up -d
