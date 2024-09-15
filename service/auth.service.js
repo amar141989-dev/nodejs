@@ -12,7 +12,6 @@ const registerUser = async (req_body) => {
           },
         },
     });
-
     if (user!=null) {
         throw new Error('User already present with specified email!');
     }
@@ -25,7 +24,6 @@ const registerUser = async (req_body) => {
             password: pwd_hash,
         },
     });
-
     //Save records to database 
     return `User is registered successfuly for ${email}`;
 }
