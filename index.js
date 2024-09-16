@@ -1,29 +1,20 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
-const prisma = require("./db/prisma");
-const { getMaxListeners } = require("events");
-const public_routes = require("./controllers/auth.controller")
+const public_routes = require("./controllers/auth.controller");
+const { provider } = require("./tracing.config");
+const tracing = require("./middleware/tracing");
+
 const app = express();
 
 dotenv.config();
 
 const port = 3000;
 
-// app.get("/",async (req, res) => {
-//     await prisma.user.create({
-//         data: {
-//             name: "John Doe",
-//             email: "johndoe@gmail.com",
-//             password: "123456",
-//         },
-//     });
+//Set the tracer provider as the global tracer provider 
+provider.register();
 
-//     const users = await prisma.user.findMany();
-//     const names = users.map((user)=>user.name);
-//     res.send(`There are ${names.length} users with names of: ${names.join(", ")}`);
-// })
-
+app.use(tracing);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api/v1", public_routes);

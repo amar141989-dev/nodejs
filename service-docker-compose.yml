@@ -2,7 +2,26 @@
 version: '3.9'
 
 services:
-
+  service:
+    build: .
+    container_name: service
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=db
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+    depends_on:
+      - db
+      - jaeger
+  jaeger:
+    image: jaegertracing/all-in-one:1.35
+    container_name: jaeger-all-in-one
+    ports:
+      - "16686:16686"
+      - "4317:4317" #grpc
+      - "4318:4318" #http
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
   db:
     image: postgres
     container_name: db
